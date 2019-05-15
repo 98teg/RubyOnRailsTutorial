@@ -4,6 +4,6 @@ class User
   field :name, type: String
   field :email, type: String
 
-  validates :name, presence: true
-  validates :email, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :email, presence: true, length: { maximum: 255 }
 end
