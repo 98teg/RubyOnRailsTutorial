@@ -7,6 +7,8 @@ class UserTest < ActiveSupport::TestCase
 
 	test "should be valid" do
 		assert @user.valid?
+
+		#User.distinct(:email).each { |email| User.where(email: email).destroy }
 	end
 
 	test "name should be present" do
@@ -35,6 +37,7 @@ class UserTest < ActiveSupport::TestCase
 							 alice+bob@baz.cn]
 		valid_addresses.each do |valid_address|
 			@user.email = valid_address
+
 			assert @user.valid?, "#{valid_address.inspect} should be valid"
 		end
 	end
@@ -47,5 +50,34 @@ class UserTest < ActiveSupport::TestCase
 			@user.email = invalid_address
 			assert_not @user.valid?, "#{invalid_address.inspect} should be invalid"
 		end
+	end
+
+	test "email address should be unique" do
+		duplicate_user = @user.dup
+		duplicate_user.email = @user.email.upcase
+
+		@user.save
+		if duplicate_user.valid?
+			@assert_cond = false;
+		else
+			@assert_cond = true;
+		end
+		@user.destroy
+
+		assert @assert_cond
+	end
+
+	test "email address should always be added downcased" do
+		@user.email = @user.email.upcase
+
+		@user.save
+		if @user.reload.email != @user.email.downcase
+			@assert_cond = false;
+		else
+			@assert_cond = true;
+		end
+		@user.destroy
+
+		assert @assert_cond
 	end
 end
