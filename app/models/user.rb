@@ -1,8 +1,11 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include ActiveModel::SecurePassword
+
   field :name, type: String
   field :email, type: String
+  field :password_digest, type: String
 
   before_save { self.email = email.downcase }
 
@@ -14,4 +17,8 @@ class User
 					uniqueness: {case_sensitive: false }
 
   index({ email: 1 })
+
+  has_secure_password
+
+  validates :password, presence: true, length: { minimum: 6 }
 end
