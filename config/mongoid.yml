@@ -166,7 +166,7 @@ production:
   # Configure available database sessions. (required)
   clients:
     default:
-	  database: <%=Rails.application.secrets.database%>
+      database: <%=Rails.application.secrets.database%>
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
