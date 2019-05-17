@@ -166,11 +166,11 @@ production:
   # Configure available database sessions. (required)
   clients:
     default:
-      database: <%=Rails.application.secrets.database%>
-      # Provides the hosts the default client can connect to. Must be an array
-      # of host:port pairs. (required)
-      hosts:
-        - <%=Rails.application.secrets.host%>:<%=Rails.application.secrets.port%>
+      # The standard MongoDB connection URI allows for easy replica set 
+      # connection setup. 
+      # Use environment variables or a config file to keep your 
+      # credentials safe.
+      uri: <%=Rails.application.secrets.uri%>
       options:
         # Note that all options listed below are Ruby driver client options (the mongo gem).
         # Please refer to the driver documentation of the version of the mongo gem you are using
@@ -187,9 +187,3 @@ production:
         #   mode: :secondary_preferred
         #   tag_sets:
         #     - use: web
-
-        # The name of the user for authentication.
-        # user: <%=Rails.application.secrets.user%>
-
-        # The password of the user for authentication.
-        # password: <%=Rails.application.secrets.password%>
