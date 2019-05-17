@@ -13,10 +13,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 		follow_redirect!
 		assert_template 'users/show'
 	    assert_not flash.empty?
-
-		if !!User.where(email: "user@example.com")
-			User.find_by(email: "user@example.com").destroy
-		end
+		assert is_logged_in?
 	end
 
 
@@ -30,4 +27,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 		end
 		assert_template 'users/new'
 	end
+
+  	def teardown
+    	if !User.where(email: "user@example.com").empty?
+			User.find_by(email: "user@example.com").destroy
+		end
+  	end
 end	
