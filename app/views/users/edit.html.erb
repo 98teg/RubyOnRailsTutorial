@@ -1,6 +1,7 @@
+<% require 'uri' %>
+
 <% provide(:title, "Edit user") %>
 <% provide(:button_text, "Guardar la modificación") %>
-<% provide(:path, edit_user_path(current_user)) %>
 
 <h1>Realizar la actualización</h1>
 
@@ -9,8 +10,8 @@
 		<%= render 'form' %>
 
 		<div class="gravatar_edit">
-			<%= gravatar_for @user %>
-			<a href="http://gravatar.com/emails" rel="noopener" target="_blank">change</a>
+		  <%= gravatar_for @user %>
+		  <a href="http://gravatar.com/emails" target="_blank">change</a>
 		</div>
 	</div>
 </div>
