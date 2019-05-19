@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails',                  '5.1.6'
+gem "actionview", ">= 5.1.6.2"
+gem 'rails',                  '5.1.6.2'
 gem 'bcrypt',                 '3.1.12'
 gem 'faker',			      '1.9.3'
 gem 'will_paginate',          '3.1.6'
