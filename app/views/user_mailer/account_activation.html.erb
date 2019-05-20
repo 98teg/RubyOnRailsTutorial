@@ -1,5 +1,9 @@
-<h1>User#account_activation</h1>
+<h1>Aplicación de ejemplo</h1>
+
+<p> Holo <%= @user.name %>,</p>
 
 <p>
-  <%= @greeting %>, find me in app/views/user_mailer/account_activation.html.erb
+  Bienvenido a la aplicación de ejemplo!:D Clica en el link para activar tu cuenta:
 </p>
+
+<%= link_to "Activar", edit_account_activation_url(@user.activation_token, email: @user.email) %>
