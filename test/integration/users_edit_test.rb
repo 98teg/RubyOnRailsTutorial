@@ -3,11 +3,13 @@ require 'test_helper'
 class UsersEditTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.new(name: "Example User", email: "user@example.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar", password_confirmation: "foobar",
+					 activated: true, activated_at: Time.zone.now)
     @user.save
 
     @other_user = User.new(name: "Example User", email: "otheruser@example.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar", password_confirmation: "foobar",
+					 activated: true, activated_at: Time.zone.now)
     @other_user.save
   end
 

@@ -4,11 +4,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @base_title = "Sample Application"
     @user = User.new(name: "Example User", email: "user@example.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar", password_confirmation: "foobar",
+					 activated: true, activated_at: Time.zone.now)
     @user.save
 
     @admin = User.new(name: "Admin User", email: "admin@example.com",
-                     password: "foobar", password_confirmation: "foobar", admin: "true")
+                     password: "foobar", password_confirmation: "foobar", admin: "true",
+					 activated: true, activated_at: Time.zone.now)
     @admin.save
   end
 

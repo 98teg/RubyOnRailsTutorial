@@ -4,16 +4,19 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = User.new(name: "Example User", email: "user@example.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar", password_confirmation: "foobar",
+					 activated: true, activated_at: Time.zone.now)
     @user.save
 
     @admin = User.new(name: "Admin User", email: "admin@example.com",
-                     password: "foobar", password_confirmation: "foobar", admin: "true")
+                     password: "foobar", password_confirmation: "foobar", admin: "true",
+					 activated: true, activated_at: Time.zone.now)
     @admin.save
 
     30.times do |n|
       User.create(name: "User #{n}", email: "user-#{n}@example.com",
-                  password: "foobar", password_confirmation: "foobar")
+                  password: "foobar", password_confirmation: "foobar",
+					 activated: true, activated_at: Time.zone.now)
     end
   end
 
