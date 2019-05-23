@@ -1,5 +1,5 @@
 Buenas <%= @user.name %>,
 
-Bienvenido a la aplicación de ejemplo :> Clica aquí pa activar tu cuenta;):
+Bienvenido a la aplicacion de ejemplo :> Clica aqui pa activar tu cuenta;):
 
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>

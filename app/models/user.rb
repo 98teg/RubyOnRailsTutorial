@@ -66,6 +66,10 @@ class User
     update_attribute(:remember_digest, User.digest(remember_token))
   end
 
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
