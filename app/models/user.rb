@@ -14,10 +14,13 @@ class User
   field :reset_digest, type: String
   field :reset_sent_at, type: Time
 
+  embeds_many :microposts
+
   attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save   :downcase_email
   before_create :create_activation_digest
+  before_destroy:delete_microposts
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -70,6 +73,11 @@ class User
     reset_sent_at < 2.hours.ago
   end
 
+  def toggle!
+    value = ! self.activated?
+    update_attribute(:activated, value)
+  end
+
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
@@ -89,5 +97,11 @@ class User
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+    end
+
+    def delete_microposts
+		while self.microposts.count != 0
+			self.microposts.first.destroy
+		end
     end
 end

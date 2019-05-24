@@ -79,6 +79,14 @@ class UserTest < ActiveSupport::TestCase
 		assert @assert_cond
 	end
 
+  test "associated microposts should be destroyed" do
+    @user.save
+    @user.microposts.create!(content: "Lorem ipsum")
+    assert_difference '@user.microposts.count', -1 do
+      @user.destroy
+    end
+  end
+
 	test "email address should always be added downcased" do
 		@user.email = @user.email.upcase
 
