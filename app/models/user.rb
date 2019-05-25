@@ -88,6 +88,10 @@ class User
     update_attribute(:remember_digest, nil)
   end
 
+  def feed
+    self.microposts
+  end
+
   private
 
     def downcase_email
