@@ -15,6 +15,14 @@ class User
   field :reset_sent_at, type: Time
 
   embeds_many :microposts
+  has_many :active_relationships, class_name: "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent: :destroy,
+                                  inverse_of: :follower
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy,
+                                  inverse_of: :followed
 
   attr_accessor :remember_token, :activation_token, :reset_token
 
@@ -90,6 +98,22 @@ class User
 
   def feed
     self.microposts
+  end
+
+  def follow(other_user)
+    active_relationships.create(follower_id: self.id, followed_id: other_user.id)
+  end
+
+  def unfollow(other_user)
+    active_relationships.find_by(follower_id: self.id, followed_id: other_user.id).destroy
+  end
+
+  def following?(other_user)
+    not active_relationships.where(follower_id: self.id, followed_id: other_user.id).blank?
+  end
+
+  def followed_by?(other_user)
+    not passive_relationships.where(follower_id: other_user.id, followed_id: self.id).blank?
   end
 
   private
