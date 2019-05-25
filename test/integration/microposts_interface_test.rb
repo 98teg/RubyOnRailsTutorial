@@ -20,6 +20,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     log_in_as(@user, password: "foobar")
     get root_path
     assert_select 'div.pagination'
+    assert_select 'input[type=file]'
     # Invalid submission
     assert_no_difference '@user.microposts.count' do
       post microposts_path, params: { micropost: { content: "" } }
@@ -27,8 +28,12 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation'
     # Valid submission
     content = "This micropost really ties the room together"
+    picture = fixture_file_upload('app/assets/images/kitten.jpg', 'image/jpg')
     assert_difference '@user.microposts.count', 1 do
-      post microposts_path, params: { micropost: { content: content } }
+      post microposts_path, params: { micropost:
+                                      { content: content,
+                                        picture: picture } }
+
       @user.reload
     end
     assert_redirected_to root_url
