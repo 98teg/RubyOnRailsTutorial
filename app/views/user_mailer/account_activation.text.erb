@@ -1,5 +1,5 @@
 Buenas <%= @user.name %>,
 
-Bienvenido a la aplicacion de ejemplo :> Clica aqui pa activar tu cuenta;):
+Gracias por registrarte en Twitter Descafeinado. Haga click en el link para activar su cuenta:
 
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>

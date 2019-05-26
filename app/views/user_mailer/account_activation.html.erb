@@ -1,9 +1,9 @@
-<h1>Aplicacion de ejemplo</h1>
+<h1>Twitter Descafeinado</h1>
 
-<p> Holo <%= @user.name %>,</p>
+<p> Buenas <%= @user.name %>,</p>
 
 <p>
-  Bienvenido a la aplicacion de ejemplo!:D Clica en el link para activar tu cuenta:
+  Gracias por registrarte en Twitter Descafeinado. Haga click en el link para activar su cuenta:
 </p>
 
 <%= link_to "Activar", edit_account_activation_url(@user.activation_token, email: @user.email) %>
