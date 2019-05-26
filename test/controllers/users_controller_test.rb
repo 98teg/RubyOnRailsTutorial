@@ -5,19 +5,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @base_title = "Sample Application"
     @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar",
-					 activated: true, activated_at: Time.zone.now)
+					           activated: true, activated_at: Time.zone.now)
     @user.save
 
     @admin = User.new(name: "Admin User", email: "admin@example.com",
-                     password: "foobar", password_confirmation: "foobar", admin: "true",
-					 activated: true, activated_at: Time.zone.now)
+                      password: "foobar", password_confirmation: "foobar", admin: "true",
+                      activated: true, activated_at: Time.zone.now)
     @admin.save
   end
 
   test "should get new" do
     get signup_path
     assert_response :success
-	  assert_select "title", "Sign Up | #{@base_title}"
+    assert_select "title", "Sign Up | #{@base_title}"
   end
 
   test "should redirect index when not logged in" do
@@ -50,6 +50,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_url
+  end
+
+  test "should redirect following when not logged in" do
+    get following_user_path(@user)
+    assert_redirected_to login_url
+  end
+
+  test "should redirect followers when not logged in" do
+    get followers_user_path(@user)
+    assert_redirected_to login_url
   end
 
   def teardown

@@ -6,7 +6,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar",
-					 activated: true, activated_at: Time.zone.now)
+                     activated: true, activated_at: Time.zone.now)
     @user.save
 
     30.times do |n|
@@ -27,7 +27,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
   end
 
-	def teardown
+  def teardown
     @user.destroy
   end
 end

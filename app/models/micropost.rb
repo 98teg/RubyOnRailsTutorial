@@ -4,7 +4,7 @@ class Micropost
 
   field :content, type: String
   field :picture, type: String
-  embedded_in :user, validate: true
+  belongs_to :user, validate: true
 
   mount_uploader :picture, PictureUploader
 
@@ -21,5 +21,4 @@ class Micropost
         errors.add(:picture, "should be less than 5MB")
       end
     end
-
 end

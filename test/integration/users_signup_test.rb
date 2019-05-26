@@ -6,14 +6,14 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
   end
 
-	test "valid signup information with account activation" do
-		get signup_path
-		assert_difference 'User.count', 1 do
-			post signup_path, params: { user: { name:  "Example User",
-				                                email: "user@example.com",
-				                                password:              "password",
-				                                password_confirmation: "password" } }
-		end
+  test "valid signup information with account activation" do
+    get signup_path
+    assert_difference 'User.count', 1 do
+      post signup_path, params: { user: { name:  "Example User",
+                                          email: "user@example.com",
+                                          password:              "password",
+                                          password_confirmation: "password" } }
+    end
     assert_equal 1, ActionMailer::Base.deliveries.size
     user = assigns(:user)
     assert_not user.activated?
@@ -32,25 +32,25 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_template 'users/show'
     assert is_logged_in?
-	end
+  end
 
 
-	test "invalid signup information" do
-		get signup_path
-		assert_no_difference 'User.count' do
-			post signup_path, params: { user: {name: "",
-											   email: "user@invalid",
-											   password: "foo",
-											   password_confirmation: "bar" } }
-		end
-		assert_template 'users/new'
+  test "invalid signup information" do
+    get signup_path
+    assert_no_difference 'User.count' do
+    post signup_path, params: { user: {name: "",
+                                email: "user@invalid",
+                                password: "foo",
+                                password_confirmation: "bar" } }
+    end
+    assert_template 'users/new'
     assert_select 'div#error_explanation'
     assert_select 'div.field_with_errors'
-	end
+  end
 
   def teardown
-   	if !User.where(email: "user@example.com").empty?
-		  User.find_by(email: "user@example.com").destroy
-	  end
+    if !User.where(email: "user@example.com").empty?
+      User.find_by(email: "user@example.com").destroy
+    end
   end
 end	

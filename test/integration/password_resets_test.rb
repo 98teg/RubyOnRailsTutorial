@@ -6,7 +6,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
     @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar",
-					 activated: true, activated_at: Time.zone.now)
+										 activated: true, activated_at: Time.zone.now)
     @user.save
   end
 

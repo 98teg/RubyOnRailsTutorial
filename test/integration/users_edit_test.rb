@@ -4,17 +4,17 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar",
-					 activated: true, activated_at: Time.zone.now)
+                     activated: true, activated_at: Time.zone.now)
     @user.save
 
     @other_user = User.new(name: "Example User", email: "otheruser@example.com",
-                     password: "foobar", password_confirmation: "foobar",
-					 activated: true, activated_at: Time.zone.now)
+                           password: "foobar", password_confirmation: "foobar",
+                           activated: true, activated_at: Time.zone.now)
     @other_user.save
   end
 
   test "unsuccessful edit" do
-	  log_in_as(@user, password: "foobar")
+    log_in_as(@user, password: "foobar")
     get edit_user_path(@user)
     assert_template 'users/edit'
     patch user_path(@user), params: { user: { name: "",
@@ -25,7 +25,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   end
 
   test "successful edit" do
-	  log_in_as(@user, password: "foobar")
+    log_in_as(@user, password: "foobar")
     get edit_user_path(@user)
     assert_template 'users/edit'
     name = "Foo Bar"

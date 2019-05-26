@@ -12,7 +12,7 @@ module SessionsHelper
 
   def current_user
     if user_id = session[:user_id]
-      if User.where(id: user_id)
+      unless User.where(id: user_id).nil?
         @current_user ||= User.find(user_id)
       end
     elsif user_id = cookies.signed[:user_id]
@@ -39,9 +39,9 @@ module SessionsHelper
   end
 
   def log_out
-	  forget(current_user)
-	  session.delete(:user_id)
-	  @current_user = nil
+    forget(current_user)
+    session.delete(:user_id)
+    @current_user = nil
   end
 
   def redirect_back_or(default)

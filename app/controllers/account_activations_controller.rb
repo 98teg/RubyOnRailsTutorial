@@ -1,9 +1,9 @@
 class AccountActivationsController < ApplicationController
 
   def edit
-   	unless User.where(email: params[:email]).blank?
+    unless User.where(email: params[:email]).blank?
       user = User.find_by(email: params[:email])
-	  end
+    end
     if user && !user.activated? && user.authenticated?(:activation, params[:id])
       user.activate
       log_in user

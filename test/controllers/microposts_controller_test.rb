@@ -40,7 +40,7 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
 
 
   def teardown
-	  @user.destroy
-	  @user1.destroy
+    @user.destroy
+    @user1.destroy
   end
 end

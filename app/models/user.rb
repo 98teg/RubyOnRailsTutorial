@@ -14,7 +14,7 @@ class User
   field :reset_digest, type: String
   field :reset_sent_at, type: Time
 
-  embeds_many :microposts
+  has_many :microposts
   has_many :active_relationships, class_name: "Relationship",
                                   foreign_key: "follower_id",
                                   dependent: :destroy,
@@ -22,7 +22,7 @@ class User
   has_many :passive_relationships, class_name:  "Relationship",
                                    foreign_key: "followed_id",
                                    dependent:   :destroy,
-                                  inverse_of: :followed
+                                   inverse_of: :followed
 
   attr_accessor :remember_token, :activation_token, :reset_token
 
@@ -34,8 +34,8 @@ class User
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
-					format: { with: VALID_EMAIL_REGEX },
-					uniqueness: {case_sensitive: false }
+                    format: { with: VALID_EMAIL_REGEX },
+                    uniqueness: {case_sensitive: false }
 
   index({ email: 1 })
 
@@ -44,8 +44,7 @@ class User
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def User.digest(string)
-    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-												  BCrypt::Engine.cost
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
 
@@ -97,7 +96,12 @@ class User
   end
 
   def feed
-    self.microposts
+    ids = []
+	ids << self.id
+    active_relationships.each do |r|
+      ids << r.followed_id
+    end
+    Micropost.where(:user_id.in => ids)
   end
 
   def follow(other_user)
@@ -116,6 +120,30 @@ class User
     not passive_relationships.where(follower_id: other_user.id, followed_id: self.id).blank?
   end
 
+  def following_count
+    active_relationships.count
+  end
+
+  def followers_count
+    passive_relationships.count
+  end
+
+  def following
+    ids = []
+    active_relationships.each do |r|
+      ids << r.followed_id
+    end
+    User.where(:id.in => ids)
+  end
+
+  def followers
+    ids = []
+    passive_relationships.each do |r|
+      ids << r.follower_id
+    end
+    User.where(:id.in => ids)
+  end
+
   private
 
     def downcase_email
@@ -128,8 +156,8 @@ class User
     end
 
     def delete_microposts
-		while self.microposts.count != 0
-			self.microposts.first.destroy
-		end
+      while self.microposts.count != 0
+        self.microposts.first.destroy
+      end
     end
 end

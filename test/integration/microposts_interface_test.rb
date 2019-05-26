@@ -7,8 +7,8 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
                      password: "foobar", password_confirmation: "foobar",
                      activated: true, activated_at: Time.zone.now)
 
-	30.times do
-   	  @user.microposts.create(content: "Lorem ipsum", created_at: 30.minutes.ago)
+    30.times do
+      @user.microposts.create(content: "Lorem ipsum", created_at: 30.minutes.ago)
     end
 
     @user1 = User.create(name: "Example User", email: "user1@example.com",
